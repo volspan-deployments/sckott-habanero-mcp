@@ -91,6 +91,7 @@ def filter_handler(x=None):
 
 @mcp.tool()
 async def search_works(
+    _track("search_works")
     query: Optional[str] = None,
     doi: Optional[str] = None,
     limit: int = 20,
@@ -132,6 +133,7 @@ async def search_works(
 @mcp.tool()
 async def get_citation_count(doi: str) -> dict:
     """Retrieve the citation count for a specific article by its DOI using the Crossref citation count API. Use this when the user wants to know how many times a paper has been cited."""
+    _track("get_citation_count")
     async with httpx.AsyncClient() as client:
         url = f"https://doi.org/api/handles/{doi}"
         # Use Crossref's works endpoint to get cited-by-count
@@ -150,6 +152,7 @@ async def get_citation_count(doi: str) -> dict:
 
 @mcp.tool()
 async def get_content_negotiation(
+    _track("get_content_negotiation")
     doi: str,
     format: str = "bibtex",
     style: str = "apa",
@@ -186,6 +189,7 @@ async def get_content_negotiation(
 
 @mcp.tool()
 async def lookup_entity(
+    _track("lookup_entity")
     entity: str,
     id: Optional[str] = None,
     query: Optional[str] = None,
@@ -218,6 +222,7 @@ async def lookup_entity(
 @mcp.tool()
 async def get_doi_agency(dois: List[str]) -> dict:
     """Retrieve the DOI registration agency for one or more DOIs. Use this to determine which organization registered a DOI (e.g. Crossref, DataCite, ORCID, mEDRA)."""
+    _track("get_doi_agency")
     results = []
     async with httpx.AsyncClient() as client:
         for doi in dois:
@@ -242,6 +247,7 @@ async def get_doi_agency(dois: List[str]) -> dict:
 @mcp.tool()
 async def get_random_dois(count: int = 10) -> dict:
     """Retrieve a set of random DOIs from Crossref. Useful for sampling, testing, or exploring the Crossref corpus."""
+    _track("get_random_dois")
     if count > 100:
         count = 100
     async with httpx.AsyncClient() as client:
@@ -262,6 +268,7 @@ async def get_random_dois(count: int = 10) -> dict:
 
 @mcp.tool()
 async def build_filter(
+    _track("build_filter")
     has_full_text: Optional[bool] = None,
     has_abstract: Optional[bool] = None,
     has_references: Optional[bool] = None,
